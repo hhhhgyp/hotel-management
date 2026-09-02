@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>新增预订 - 酒店管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>新增预订</h1></header>
+
+<div class="container">
+    {% if error %}<div class="error" id="error-msg">{{ error }}</div>{% endif %}
+
+    <form method="post" id="booking-form">
+        <label for="guest_name">客人姓名 <span class="req">*</span></label>
+        <input type="text" id="guest_name" name="guest_name" value="{{ form.get('guest_name', '') if form else '' }}">
+
+        <label for="phone">手机号 <span class="req">*</span></label>
+        <input type="text" id="phone" name="phone" value="{{ form.get('phone', '') if form else '' }}">
+
+        <label for="id_card">身份证号 <span class="req">*</span></label>
+        <input type="text" id="id_card" name="id_card" value="{{ form.get('id_card', '') if form else '' }}">
+
+        <label for="checkin">入住日期 <span class="req">*</span></label>
+        <input type="date" id="checkin" name="checkin" value="{{ form.get('checkin', '') if form else '' }}">
+
+        <label for="checkout">退房日期 <span class="req">*</span></label>
+        <input type="date" id="checkout" name="checkout" value="{{ form.get('checkout', '') if form else '' }}">
+
+        <label for="room_number">选择房间 <span class="req">*</span></label>
+        <select id="room_number" name="room_number">
+            <option value="">请选择</option>
+            {% for r in rooms %}
+                <option value="{{ r.number }}" {% if form and form.get('room_number') == r.number %}selected{% endif %}>
+                    {{ r.number }} - {{ r.type }}（{{ r.status }}）
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" id="save-btn">提交预订</button>
+        <a href="{{ url_for('bookings') }}" class="btn">取消</a>
+    </form>
+</div>
+</body>
+</html>

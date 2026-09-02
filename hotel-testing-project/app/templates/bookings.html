@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>预订管理 - 酒店管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <h1>预订管理</h1>
+    <div class="user-info">{{ session.username }} · <a href="{{ url_for('logout') }}">退出</a></div>
+</header>
+
+<div class="nav">
+    <a href="{{ url_for('rooms') }}">房间管理</a>
+    <a href="{{ url_for('room_types') }}">房型管理</a>
+    <a href="{{ url_for('bookings') }}" class="active">预订管理</a>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}<div class="flash" id="flash-msg">{{ messages[-1] }}</div>{% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('booking_new') }}" id="add-booking-btn" class="btn">新增预订</a>
+
+    <table id="booking-table">
+        <thead>
+            <tr><th>ID</th><th>客人</th><th>手机号</th><th>身份证</th><th>入住</th><th>退房</th><th>房号</th><th>状态</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+        {% for b in bookings %}
+            <tr data-id="{{ b.id }}">
+                <td>{{ b.id }}</td>
+                <td class="guest-name">{{ b.guest_name }}</td>
+                <td>{{ b.phone }}</td>
+                <td>{{ b.id_card }}</td>
+                <td>{{ b.checkin }}</td>
+                <td>{{ b.checkout }}</td>
+                <td>{{ b.room_number }}</td>
+                <td class="booking-status">{{ b.status }}</td>
+                <td>
+                    {% if b.status != '已退房' %}
+                    <form method="post" action="{{ url_for('booking_checkout', booking_id=b.id) }}" class="inline-form">
+                        <button type="submit" class="checkout-btn">退房</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="9" class="empty">暂无预订</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# 被测应用
+flask
+
+# 测试框架
+pytest
+pytest-playwright
+playwright
+
+# 接口测试
+requests
+
+# 测试报告
+pytest-html

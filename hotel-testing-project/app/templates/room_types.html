@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>房型管理 - 酒店管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <h1>房型管理</h1>
+    <div class="user-info">{{ session.username }} · <a href="{{ url_for('logout') }}">退出</a></div>
+</header>
+
+<div class="nav">
+    <a href="{{ url_for('rooms') }}">房间管理</a>
+    <a href="{{ url_for('room_types') }}" class="active">房型管理</a>
+    <a href="{{ url_for('bookings') }}">预订管理</a>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}<div class="flash" id="flash-msg">{{ messages[-1] }}</div>{% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('room_type_new') }}" id="add-type-btn" class="btn">添加房型</a>
+
+    <table id="room-type-table">
+        <thead>
+            <tr><th>ID</th><th>名称</th><th>价格(元)</th><th>可住人数</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+        {% for t in room_types %}
+            <tr data-id="{{ t.id }}">
+                <td>{{ t.id }}</td>
+                <td class="type-name">{{ t.name }}</td>
+                <td>{{ t.price }}</td>
+                <td>{{ t.capacity }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('room_type_delete', type_id=t.id) }}" class="inline-form">
+                        <button type="submit" class="delete-btn">删除</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5" class="empty">暂无房型</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

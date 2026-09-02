@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>登录 - 酒店管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="login-box">
+    <h1>酒店管理系统</h1>
+    {% if error %}<div class="error" id="error-msg">{{ error }}</div>{% endif %}
+    <form method="post" action="{{ url_for('login') }}">
+        <label for="username">用户名</label>
+        <input type="text" id="username" name="username" placeholder="请输入用户名">
+
+        <label for="password">密码</label>
+        <input type="password" id="password" name="password" placeholder="请输入密码">
+
+        <button type="submit" id="login-btn">登录</button>
+    </form>
+    <p class="hint">提示：用户名 admin，密码 admin123</p>
+</div>
+</body>
+</html>

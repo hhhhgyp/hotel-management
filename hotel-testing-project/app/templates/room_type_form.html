@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>{{ title }} - 酒店管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>{{ title }}</h1></header>
+
+<div class="container">
+    {% if error %}<div class="error" id="error-msg">{{ error }}</div>{% endif %}
+
+    <form method="post" id="room-type-form">
+        <label for="name">房型名称 <span class="req">*</span></label>
+        <input type="text" id="name" name="name" value="{{ form.get('name', '') if form else '' }}">
+
+        <label for="price">价格(元) <span class="req">*</span></label>
+        <input type="text" id="price" name="price" value="{{ form.get('price', '') if form else '' }}">
+
+        <label for="capacity">可住人数 <span class="req">*</span></label>
+        <input type="text" id="capacity" name="capacity" value="{{ form.get('capacity', '') if form else '' }}">
+
+        <button type="submit" id="save-btn">保存</button>
+        <a href="{{ url_for('room_types') }}" class="btn">取消</a>
+    </form>
+</div>
+</body>
+</html>
